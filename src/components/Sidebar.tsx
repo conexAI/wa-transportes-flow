@@ -2,7 +2,16 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BarChart2, Clipboard, Home, Settings, CheckSquare, LogOut } from 'lucide-react';
+import { 
+  BarChart2, 
+  Clipboard, 
+  Home, 
+  Settings, 
+  CheckSquare, 
+  LogOut, 
+  FileText,
+  Plus
+} from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 
@@ -16,12 +25,12 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
 
   const navItems = [
     { name: 'Início', path: '/dashboard', icon: Home },
+    { name: 'Lançar Nota', path: '/dashboard/create-invoice', icon: Plus, highlight: true },
     { name: 'Histórico', path: '/dashboard/history', icon: BarChart2 },
     { 
       name: 'Checklist', 
       path: '/dashboard/checklist', 
-      icon: CheckSquare,
-      highlight: true 
+      icon: CheckSquare
     },
     { name: 'Configurações', path: '/dashboard/settings', icon: Settings },
   ];
@@ -36,9 +45,9 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
       animate={{ x: 0 }}
       exit={{ x: -300 }}
       transition={{ duration: 0.3 }}
-      className="w-64 h-full bg-wa-default fixed left-0 top-0 shadow-lg flex flex-col z-50"
+      className="w-64 h-full bg-sidebar fixed left-0 top-0 shadow-lg flex flex-col z-50"
     >
-      <div className="p-6 border-b border-blue-700 flex items-center justify-center">
+      <div className="p-6 border-b border-sidebar-border flex items-center justify-center">
         <img 
           src="/logo.png" 
           alt="WA Transportes" 
@@ -61,8 +70,8 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
                 cn(
                   "flex items-center px-4 py-3 text-sm font-medium rounded-md group transition-all",
                   isActive
-                    ? "bg-blue-700 text-white"
-                    : "text-blue-100 hover:bg-blue-700/30 hover:text-white",
+                    ? "bg-sidebar-accent text-sidebar-foreground"
+                    : "text-sidebar-foreground/80 hover:bg-sidebar-accent/30 hover:text-sidebar-foreground",
                   item.highlight && !isActive && "bg-green-500/20 border-l-4 border-green-400"
                 )
               }
@@ -72,7 +81,7 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
                   <item.icon
                     className={cn(
                       "mr-3 h-5 w-5 transition-colors",
-                      isActive ? "text-white" : "text-blue-200 group-hover:text-white"
+                      isActive ? "text-sidebar-foreground" : "text-sidebar-foreground/70 group-hover:text-sidebar-foreground"
                     )}
                   />
                   <span>{item.name}</span>
@@ -88,10 +97,10 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
         </nav>
       </div>
 
-      <div className="p-4 border-t border-blue-700">
+      <div className="p-4 border-t border-sidebar-border">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center px-4 py-2 text-sm font-medium text-blue-100 rounded-md hover:bg-blue-700 hover:text-white transition-colors"
+          className="w-full flex items-center px-4 py-2 text-sm font-medium text-sidebar-foreground/80 rounded-md hover:bg-sidebar-accent hover:text-sidebar-foreground transition-colors"
         >
           <LogOut className="mr-3 h-5 w-5" />
           <span>Sair</span>

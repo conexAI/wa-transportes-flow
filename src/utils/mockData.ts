@@ -21,7 +21,8 @@ export const invoices = [
     issuer: 'Empresa ABCD Ltda',
     value: 'R$ 2.500,00',
     nfeStatus: 'Autorizada',
-    cteStatus: 'Emitido'
+    cteStatus: 'Emitido',
+    date: '2023-05-01'
   },
   { 
     id: 2, 
@@ -29,7 +30,8 @@ export const invoices = [
     issuer: 'Fornecedor XYZ S.A.',
     value: 'R$ 1.750,00',
     nfeStatus: 'Autorizada',
-    cteStatus: 'Pendente'
+    cteStatus: 'Pendente',
+    date: '2023-05-02'
   },
   { 
     id: 3, 
@@ -37,7 +39,8 @@ export const invoices = [
     issuer: 'Distribuidora ZZZ Ltda',
     value: 'R$ 3.200,00',
     nfeStatus: 'Autorizada',
-    cteStatus: 'Emitido'
+    cteStatus: 'Emitido',
+    date: '2023-05-03'
   },
   { 
     id: 4, 
@@ -45,7 +48,8 @@ export const invoices = [
     issuer: 'Indústria RST Ltda',
     value: 'R$ 5.100,00',
     nfeStatus: 'Rejeitada',
-    cteStatus: 'Rejeitado'
+    cteStatus: 'Rejeitado',
+    date: '2023-05-04'
   },
   { 
     id: 5, 
@@ -53,7 +57,8 @@ export const invoices = [
     issuer: 'Comércio QWE Eireli',
     value: 'R$ 980,00',
     nfeStatus: 'Autorizada',
-    cteStatus: 'Emitido'
+    cteStatus: 'Emitido',
+    date: '2023-05-05'
   }
 ];
 
