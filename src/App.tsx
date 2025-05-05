@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Login from "@/pages/Login";
+import Index from "@/pages/Index";
 import AppLayout from "@/components/AppLayout";
 import Dashboard from "@/pages/Dashboard";
 import History from "@/pages/History";
@@ -41,7 +42,7 @@ const App = () => {
                 <Route path="settings" element={<Settings />} />
               </Route>
               
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/" element={<Index />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
