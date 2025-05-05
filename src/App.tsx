@@ -14,6 +14,7 @@ import History from "@/pages/History";
 import Checklist from "@/pages/Checklist";
 import Settings from "@/pages/Settings";
 import CreateInvoice from "@/pages/CreateInvoice";
+import BiDashboard from "@/pages/BiDashboard"; // Importando a nova página
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,6 +43,7 @@ const App = () => {
                 <Route path="checklist" element={<Checklist />} />
                 <Route path="settings" element={<Settings />} />
                 <Route path="create-invoice" element={<CreateInvoice />} />
+                <Route path="bi" element={<BiDashboard />} /> {/* Nova rota para o B.I */}
               </Route>
               
               <Route path="/" element={<Index />} />

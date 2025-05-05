@@ -10,7 +10,8 @@ import {
   CheckSquare, 
   LogOut, 
   FileText,
-  Plus
+  Plus,
+  PieChart
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
@@ -32,6 +33,7 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
       path: '/dashboard/checklist', 
       icon: CheckSquare
     },
+    { name: 'B.I WA', path: '/dashboard/bi', icon: PieChart },
     { name: 'Configurações', path: '/dashboard/settings', icon: Settings },
   ];
 
