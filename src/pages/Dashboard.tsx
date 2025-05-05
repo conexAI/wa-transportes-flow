@@ -124,7 +124,7 @@ const Dashboard = () => {
                   <SelectValue placeholder="Filtrar por status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Todos</SelectItem>
+                  <SelectItem value="todos">Todos</SelectItem>
                   <SelectItem value="Emitido">Emitido</SelectItem>
                   <SelectItem value="Pendente">Pendente</SelectItem>
                   <SelectItem value="Rejeitado">Rejeitado</SelectItem>
