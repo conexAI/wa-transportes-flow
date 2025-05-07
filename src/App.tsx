@@ -16,7 +16,10 @@ import Settings from "@/pages/Settings";
 import CreateInvoice from "@/pages/CreateInvoice";
 import BiDashboard from "@/pages/BiDashboard";
 import Tracking from "@/pages/Tracking";
-import Alerts from "@/pages/Alerts"; // Import the new Alerts page
+import Alerts from "@/pages/Alerts";
+import Occurrences from "@/pages/Occurrences";
+import CreateOccurrence from "@/pages/CreateOccurrence";
+import OccurrenceDetails from "@/pages/OccurrenceDetails";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -43,11 +46,14 @@ const App = () => {
                 <Route index element={<Dashboard />} />
                 <Route path="history" element={<History />} />
                 <Route path="tracking" element={<Tracking />} />
-                <Route path="alerts" element={<Alerts />} /> {/* New alerts route */}
+                <Route path="alerts" element={<Alerts />} /> 
                 <Route path="checklist" element={<Checklist />} />
                 <Route path="settings" element={<Settings />} />
                 <Route path="create-invoice" element={<CreateInvoice />} />
                 <Route path="bi" element={<BiDashboard />} />
+                <Route path="occurrences" element={<Occurrences />} />
+                <Route path="occurrences/new" element={<CreateOccurrence />} />
+                <Route path="occurrences/:id" element={<OccurrenceDetails />} />
               </Route>
               
               <Route path="/" element={<Index />} />

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -13,7 +12,8 @@ import {
   Plus,
   PieChart,
   MapPin,
-  Bell
+  Bell,
+  AlertCircle
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
@@ -41,6 +41,11 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
       path: '/dashboard/alerts', 
       icon: Bell, 
       badge: pendingAlertsCount > 0 ? pendingAlertsCount : undefined 
+    },
+    { 
+      name: 'Ocorrências', 
+      path: '/dashboard/occurrences', 
+      icon: AlertCircle
     },
     { 
       name: 'Checklist', 
