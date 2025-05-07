@@ -100,21 +100,21 @@ const Checklist = () => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
-      className="container mx-auto py-6"
+      className="container px-4 sm:px-6 mx-auto py-6 max-w-3xl"
     >
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle className="text-2xl">Checklist de Saída de Veículos</CardTitle>
-          <CardDescription>
+      <Card className="mb-6 w-full overflow-hidden">
+        <CardHeader className="px-4 sm:px-6">
+          <CardTitle className="text-xl sm:text-2xl">Checklist de Saída de Veículos</CardTitle>
+          <CardDescription className="text-sm sm:text-base break-words">
             Preencha todos os dados abaixo antes da saída do veículo
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 px-4 sm:px-6">
           {/* Driver Selection */}
-          <div className="space-y-2">
-            <Label htmlFor="driver">Motorista</Label>
+          <div className="space-y-2 w-full">
+            <Label htmlFor="driver" className="text-sm sm:text-base">Motorista</Label>
             <Select value={selectedDriver} onValueChange={setSelectedDriver}>
-              <SelectTrigger>
+              <SelectTrigger className="w-full min-h-12">
                 <SelectValue placeholder="Selecione o motorista" />
               </SelectTrigger>
               <SelectContent>
@@ -128,10 +128,10 @@ const Checklist = () => {
           </div>
 
           {/* Vehicle Selection */}
-          <div className="space-y-2">
-            <Label htmlFor="vehicle">Veículo</Label>
+          <div className="space-y-2 w-full">
+            <Label htmlFor="vehicle" className="text-sm sm:text-base">Veículo</Label>
             <Select value={selectedVehicle} onValueChange={setSelectedVehicle}>
-              <SelectTrigger>
+              <SelectTrigger className="w-full min-h-12">
                 <SelectValue placeholder="Selecione o veículo" />
               </SelectTrigger>
               <SelectContent>
@@ -145,76 +145,61 @@ const Checklist = () => {
           </div>
 
           {/* Checklist Items */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium">Itens de Verificação</h3>
+          <div className="space-y-4 w-full">
+            <h3 className="text-base sm:text-lg font-medium">Itens de Verificação</h3>
             
-            <div className="grid gap-4">
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="fuel" 
-                  checked={checkItems.fuel} 
-                  onCheckedChange={(checked) => handleCheckChange('fuel', checked as boolean)}
-                />
-                <Label htmlFor="fuel">Nível de combustível adequado</Label>
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="tires" 
-                  checked={checkItems.tires} 
-                  onCheckedChange={(checked) => handleCheckChange('tires', checked as boolean)}
-                />
-                <Label htmlFor="tires">Pneus calibrados</Label>
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="lights" 
-                  checked={checkItems.lights} 
-                  onCheckedChange={(checked) => handleCheckChange('lights', checked as boolean)}
-                />
-                <Label htmlFor="lights">Lanternas e faróis funcionando</Label>
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="equipment" 
-                  checked={checkItems.equipment} 
-                  onCheckedChange={(checked) => handleCheckChange('equipment', checked as boolean)}
-                />
-                <Label htmlFor="equipment">Equipamentos obrigatórios (triângulo, estepe, macaco)</Label>
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="documentation" 
-                  checked={checkItems.documentation} 
-                  onCheckedChange={(checked) => handleCheckChange('documentation', checked as boolean)}
-                />
-                <Label htmlFor="documentation">Documentação do veículo completa</Label>
-              </div>
+            <div className="grid gap-4 w-full">
+              {Object.entries({
+                fuel: "Nível de combustível adequado",
+                tires: "Pneus calibrados",
+                lights: "Lanternas e faróis funcionando",
+                equipment: "Equipamentos obrigatórios (triângulo, estepe, macaco)",
+                documentation: "Documentação do veículo completa"
+              }).map(([key, label]) => (
+                <div key={key} className="flex items-center space-x-3 w-full p-2 hover:bg-muted rounded-md">
+                  <div className="min-w-[24px] flex items-center justify-center">
+                    <Checkbox 
+                      id={key} 
+                      checked={checkItems[key as keyof typeof checkItems]} 
+                      onCheckedChange={(checked) => handleCheckChange(key, checked as boolean)}
+                      className="h-5 w-5"
+                    />
+                  </div>
+                  <Label 
+                    htmlFor={key} 
+                    className="text-sm sm:text-base flex-1 cursor-pointer overflow-wrap-break-word break-words"
+                  >
+                    {label}
+                  </Label>
+                </div>
+              ))}
             </div>
           </div>
 
           {/* Observations */}
-          <div className="space-y-2">
-            <Label htmlFor="observations">Observações Adicionais</Label>
+          <div className="space-y-2 w-full">
+            <Label htmlFor="observations" className="text-sm sm:text-base">Observações Adicionais</Label>
             <Textarea
               id="observations"
               placeholder="Adicione observações relevantes aqui..."
               value={observations}
               onChange={(e) => setObservations(e.target.value)}
               rows={4}
+              className="w-full resize-y"
             />
           </div>
 
           {/* Photo Upload */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium">Fotos de Avarias</h3>
+          <div className="space-y-4 w-full">
+            <h3 className="text-base sm:text-lg font-medium">Fotos de Avarias</h3>
             
-            <div className="grid gap-4">
-              <div className="flex items-center">
-                <Button variant="outline" className="mr-2" onClick={() => document.getElementById('photo-upload')?.click()}>
+            <div className="grid gap-4 w-full">
+              <div className="flex flex-wrap gap-2 items-center">
+                <Button 
+                  variant="outline" 
+                  className="h-12 min-w-[140px] flex-shrink-0" 
+                  onClick={() => document.getElementById('photo-upload')?.click()}
+                >
                   <Upload className="h-4 w-4 mr-2" />
                   Adicionar Fotos
                 </Button>
@@ -230,21 +215,21 @@ const Checklist = () => {
               </div>
               
               {images.length > 0 && (
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
                   {images.map((src, index) => (
-                    <div key={index} className="relative group">
+                    <div key={index} className="relative group w-full aspect-square">
                       <img 
                         src={src} 
                         alt={`Avaria ${index + 1}`} 
-                        className="rounded-md h-32 w-full object-cover"
+                        className="rounded-md h-full w-full object-cover"
                       />
                       <Button 
                         variant="destructive" 
                         size="icon" 
-                        className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="absolute top-2 right-2 h-8 w-8 opacity-90"
                         onClick={() => removeImage(index)}
                       >
-                        <Trash2 className="h-3 w-3" />
+                        <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
                   ))}
@@ -254,19 +239,21 @@ const Checklist = () => {
           </div>
 
           {/* Driver Signature */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium">Assinatura do Motorista</h3>
+          <div className="space-y-4 w-full">
+            <h3 className="text-base sm:text-lg font-medium">Assinatura do Motorista</h3>
             
-            <div className="border rounded-md p-2">
-              <div className="bg-gray-50 rounded border border-dashed border-gray-300 h-40 flex items-center justify-center overflow-hidden">
+            <div className="border rounded-md p-2 w-full">
+              <div className="bg-gray-50 rounded border border-dashed border-gray-300 h-40 flex items-center justify-center overflow-hidden w-full">
                 {signatureURL ? (
-                  <img src={signatureURL} alt="Assinatura" className="max-h-full" />
+                  <img src={signatureURL} alt="Assinatura" className="max-h-full max-w-full" />
                 ) : (
                   <div className="h-full w-full">
                     <SignatureCanvas
                       ref={(ref) => setSignatureRef(ref)}
                       canvasProps={{
                         className: 'signature-canvas',
+                        width: '100%',
+                        height: '100%'
                       }}
                       backgroundColor='rgba(245, 245, 245, 0.5)'
                     />
@@ -275,11 +262,11 @@ const Checklist = () => {
               </div>
               
               <div className="flex mt-2 space-x-2">
-                <Button variant="outline" size="sm" onClick={clearSignature}>
+                <Button variant="outline" size="sm" className="h-10 min-w-[100px]" onClick={clearSignature}>
                   <X className="h-4 w-4 mr-1" /> Limpar
                 </Button>
                 {!signatureURL && (
-                  <Button variant="outline" size="sm" onClick={saveSignature}>
+                  <Button variant="outline" size="sm" className="h-10 min-w-[100px]" onClick={saveSignature}>
                     <Check className="h-4 w-4 mr-1" /> Confirmar
                   </Button>
                 )}
@@ -288,7 +275,11 @@ const Checklist = () => {
           </div>
 
           {/* Submit Button */}
-          <Button onClick={handleSubmit} disabled={loading} className="w-full">
+          <Button 
+            onClick={handleSubmit} 
+            disabled={loading} 
+            className="w-full h-12 text-base"
+          >
             {loading ? 'Salvando...' : 'Finalizar Checklist'}
           </Button>
         </CardContent>
