@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   Card, 
@@ -16,6 +15,11 @@ import {
   SelectValue 
 } from '@/components/ui/select';
 import { 
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent
+} from '@/components/ui/chart';
+import { 
   BarChart,
   LineChart,
   PieChart,
@@ -32,10 +36,12 @@ import {
 } from 'recharts';
 import { biData } from '@/utils/mockData';
 import { Truck, TrendingUp, Users, Fuel, Calendar } from 'lucide-react';
+import { useMediaQuery } from '@/hooks/use-mobile';
 
 const BiDashboard = () => {
   const [timeFrame, setTimeFrame] = useState<'monthly' | 'quarterly' | 'yearly'>('monthly');
   const [activeTab, setActiveTab] = useState('overview');
+  const isMobile = useMediaQuery('(max-width: 768px)');
   
   // Função para formatar valores monetários
   const formatCurrency = (value: number) => {
@@ -51,27 +57,28 @@ const BiDashboard = () => {
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
   
   return (
-    <div className="container mx-auto py-6 space-y-8">
-      <div className="flex flex-col space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">Business Intelligence WA</h1>
-        <p className="text-muted-foreground">
+    <div className="w-full py-6 space-y-8 overflow-x-hidden">
+      <div className="flex flex-col space-y-2 px-4">
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Business Intelligence WA</h1>
+        <p className="text-muted-foreground text-sm md:text-base">
           Análise detalhada das operações e desempenho da WA Transportes.
         </p>
       </div>
       
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center px-4">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid grid-cols-4 w-[500px]">
-            <TabsTrigger value="overview">Visão Geral</TabsTrigger>
-            <TabsTrigger value="revenue">Faturamento</TabsTrigger>
-            <TabsTrigger value="trips">Viagens</TabsTrigger>
-            <TabsTrigger value="resources">Recursos</TabsTrigger>
-          </TabsList>
+          <div className="overflow-x-auto pb-2">
+            <TabsList className={`${isMobile ? 'w-full grid-cols-2' : 'w-[500px] grid-cols-4'} grid`}>
+              <TabsTrigger value="overview" className="text-sm">Visão Geral</TabsTrigger>
+              <TabsTrigger value="revenue" className="text-sm">Faturamento</TabsTrigger>
+              <TabsTrigger value="trips" className="text-sm">Viagens</TabsTrigger>
+              <TabsTrigger value="resources" className="text-sm">Recursos</TabsTrigger>
+            </TabsList>
+          </div>
           
-          {/* Moved TabsContent components inside the Tabs component */}
           <TabsContent value="overview" className="space-y-6">
             {/* Cards de resumo */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-2">
               <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-lg font-medium flex items-center gap-2">
@@ -80,8 +87,8 @@ const BiDashboard = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-bold">{formatCurrency(4340000)}</div>
-                  <p className="text-blue-100 mt-1">+12% vs. ano anterior</p>
+                  <div className="text-2xl md:text-3xl font-bold">{formatCurrency(4340000)}</div>
+                  <p className="text-blue-100 mt-1 text-sm">+12% vs. ano anterior</p>
                 </CardContent>
               </Card>
               
@@ -93,8 +100,8 @@ const BiDashboard = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-bold">2005</div>
-                  <p className="text-green-100 mt-1">+8% vs. ano anterior</p>
+                  <div className="text-2xl md:text-3xl font-bold">2005</div>
+                  <p className="text-green-100 mt-1 text-sm">+8% vs. ano anterior</p>
                 </CardContent>
               </Card>
               
@@ -106,8 +113,8 @@ const BiDashboard = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-bold">{biData.drivers.active}</div>
-                  <p className="text-amber-100 mt-1">+3 vs. mês anterior</p>
+                  <div className="text-2xl md:text-3xl font-bold">{biData.drivers.active}</div>
+                  <p className="text-amber-100 mt-1 text-sm">+3 vs. mês anterior</p>
                 </CardContent>
               </Card>
               
@@ -119,36 +126,49 @@ const BiDashboard = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-bold">{biData.vehicles.active + biData.vehicles.maintenance + biData.vehicles.idle}</div>
-                  <p className="text-purple-100 mt-1">+2 vs. mês anterior</p>
+                  <div className="text-2xl md:text-3xl font-bold">{biData.vehicles.active + biData.vehicles.maintenance + biData.vehicles.idle}</div>
+                  <p className="text-purple-100 mt-1 text-sm">+2 vs. mês anterior</p>
                 </CardContent>
               </Card>
             </div>
             
             {/* Gráficos principais */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-2">
+              <Card className="w-full">
                 <CardHeader>
-                  <CardTitle>Faturamento por {timeFrame === 'monthly' ? 'Mês' : timeFrame === 'quarterly' ? 'Trimestre' : 'Ano'}</CardTitle>
+                  <CardTitle className="text-lg">Faturamento por {timeFrame === 'monthly' ? 'Mês' : timeFrame === 'quarterly' ? 'Trimestre' : 'Ano'}</CardTitle>
                   <CardDescription>Evolução do faturamento ao longo do tempo</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-80">
+                  <div className="h-[250px] md:h-[300px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart
                         data={biData.revenue[timeFrame]}
-                        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                        margin={{ 
+                          top: 5, 
+                          right: isMobile ? 10 : 30, 
+                          left: isMobile ? 0 : 20, 
+                          bottom: 5 
+                        }}
                       >
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis 
                           dataKey={
                             timeFrame === 'monthly' ? 'month' : 
                             timeFrame === 'quarterly' ? 'quarter' : 'year'
-                          } 
+                          }
+                          tick={{ fontSize: isMobile ? 10 : 12 }}
                         />
-                        <YAxis tickFormatter={(value) => `R$ ${value/1000}k`} />
-                        <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-                        <Legend />
+                        <YAxis 
+                          tickFormatter={(value) => `${value/1000}k`}
+                          width={isMobile ? 30 : 40}
+                          tick={{ fontSize: isMobile ? 10 : 12 }}
+                        />
+                        <Tooltip 
+                          formatter={(value) => formatCurrency(Number(value))}
+                          contentStyle={{ fontSize: isMobile ? 10 : 12 }}
+                        />
+                        <Legend wrapperStyle={{ fontSize: isMobile ? 10 : 12 }} />
                         <Bar 
                           dataKey="value" 
                           name="Faturamento" 
@@ -161,35 +181,44 @@ const BiDashboard = () => {
                 </CardContent>
               </Card>
               
-              <Card>
+              <Card className="w-full">
                 <CardHeader>
-                  <CardTitle>Viagens por {timeFrame === 'monthly' ? 'Mês' : timeFrame === 'quarterly' ? 'Trimestre' : 'Ano'}</CardTitle>
+                  <CardTitle className="text-lg">Viagens por {timeFrame === 'monthly' ? 'Mês' : timeFrame === 'quarterly' ? 'Trimestre' : 'Ano'}</CardTitle>
                   <CardDescription>Quantidade de viagens realizadas</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-80">
+                  <div className="h-[250px] md:h-[300px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart
                         data={biData.trips[timeFrame]}
-                        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                        margin={{ 
+                          top: 5, 
+                          right: isMobile ? 10 : 30, 
+                          left: isMobile ? 0 : 20, 
+                          bottom: 5 
+                        }}
                       >
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis 
                           dataKey={
                             timeFrame === 'monthly' ? 'month' : 
                             timeFrame === 'quarterly' ? 'quarter' : 'year'
-                          } 
+                          }
+                          tick={{ fontSize: isMobile ? 10 : 12 }}
                         />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
+                        <YAxis 
+                          width={isMobile ? 30 : 40} 
+                          tick={{ fontSize: isMobile ? 10 : 12 }}
+                        />
+                        <Tooltip contentStyle={{ fontSize: isMobile ? 10 : 12 }} />
+                        <Legend wrapperStyle={{ fontSize: isMobile ? 10 : 12 }} />
                         <Line 
                           type="monotone" 
                           dataKey="value" 
                           name="Viagens" 
                           stroke="#10b981" 
                           strokeWidth={2} 
-                          activeDot={{ r: 8 }} 
+                          activeDot={{ r: 6 }} 
                         />
                       </LineChart>
                     </ResponsiveContainer>
@@ -199,14 +228,14 @@ const BiDashboard = () => {
             </div>
             
             {/* Gráficos adicionais */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-2">
+              <Card className="w-full">
                 <CardHeader>
-                  <CardTitle>Status dos Motoristas</CardTitle>
+                  <CardTitle className="text-lg">Status dos Motoristas</CardTitle>
                   <CardDescription>Distribuição atual dos motoristas</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-[300px] flex justify-center">
+                  <div className="h-[250px] md:h-[300px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
                         <Pie
@@ -218,8 +247,12 @@ const BiDashboard = () => {
                           cx="50%"
                           cy="50%"
                           labelLine={false}
-                          label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                          outerRadius={100}
+                          label={({ name, percent }) => 
+                            isMobile ? 
+                              `${Math.round(percent * 100)}%` : 
+                              `${name}: ${Math.round(percent * 100)}%`
+                          }
+                          outerRadius={isMobile ? 80 : 100}
                           fill="#8884d8"
                           dataKey="value"
                         >
@@ -231,21 +264,24 @@ const BiDashboard = () => {
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                           ))}
                         </Pie>
-                        <Tooltip formatter={(value) => [`${value} motoristas`, 'Quantidade']} />
-                        <Legend />
+                        <Tooltip 
+                          formatter={(value) => [`${value} motoristas`, 'Quantidade']} 
+                          contentStyle={{ fontSize: isMobile ? 10 : 12 }}
+                        />
+                        <Legend wrapperStyle={{ fontSize: isMobile ? 10 : 12 }} />
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
                 </CardContent>
               </Card>
               
-              <Card>
+              <Card className="w-full">
                 <CardHeader>
-                  <CardTitle>Distribuição de Despesas</CardTitle>
+                  <CardTitle className="text-lg">Distribuição de Despesas</CardTitle>
                   <CardDescription>Percentual por categoria</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-[300px] flex justify-center">
+                  <div className="h-[250px] md:h-[300px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
                         <Pie
@@ -258,8 +294,12 @@ const BiDashboard = () => {
                           cx="50%"
                           cy="50%"
                           labelLine={false}
-                          label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                          outerRadius={100}
+                          label={({ name, percent }) => 
+                            isMobile ? 
+                              `${Math.round(percent * 100)}%` : 
+                              `${name}: ${Math.round(percent * 100)}%`
+                          }
+                          outerRadius={isMobile ? 80 : 100}
                           fill="#8884d8"
                           dataKey="value"
                         >
@@ -272,8 +312,11 @@ const BiDashboard = () => {
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                           ))}
                         </Pie>
-                        <Tooltip formatter={(value) => [`${value}%`, 'Percentual']} />
-                        <Legend />
+                        <Tooltip 
+                          formatter={(value) => [`${value}%`, 'Percentual']} 
+                          contentStyle={{ fontSize: isMobile ? 10 : 12 }}
+                        />
+                        <Legend wrapperStyle={{ fontSize: isMobile ? 10 : 12 }} />
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
@@ -433,8 +476,12 @@ const BiDashboard = () => {
                           cx="50%"
                           cy="50%"
                           labelLine={false}
-                          label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                          outerRadius={100}
+                          label={({ name, percent }) => 
+                            isMobile ? 
+                              `${Math.round(percent * 100)}%` : 
+                              `${name}: ${Math.round(percent * 100)}%`
+                          }
+                          outerRadius={isMobile ? 80 : 100}
                           fill="#8884d8"
                           dataKey="value"
                         >
@@ -446,8 +493,11 @@ const BiDashboard = () => {
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                           ))}
                         </Pie>
-                        <Tooltip formatter={(value) => [`${value} motoristas`, 'Quantidade']} />
-                        <Legend />
+                        <Tooltip 
+                          formatter={(value) => [`${value} motoristas`, 'Quantidade']} 
+                          contentStyle={{ fontSize: isMobile ? 10 : 12 }}
+                        />
+                        <Legend wrapperStyle={{ fontSize: isMobile ? 10 : 12 }} />
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
@@ -472,8 +522,12 @@ const BiDashboard = () => {
                           cx="50%"
                           cy="50%"
                           labelLine={false}
-                          label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                          outerRadius={100}
+                          label={({ name, percent }) => 
+                            isMobile ? 
+                              `${Math.round(percent * 100)}%` : 
+                              `${name}: ${Math.round(percent * 100)}%`
+                          }
+                          outerRadius={isMobile ? 80 : 100}
                           fill="#8884d8"
                           dataKey="value"
                         >
@@ -485,8 +539,11 @@ const BiDashboard = () => {
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                           ))}
                         </Pie>
-                        <Tooltip formatter={(value) => [`${value} veículos`, 'Quantidade']} />
-                        <Legend />
+                        <Tooltip 
+                          formatter={(value) => [`${value} veículos`, 'Quantidade']} 
+                          contentStyle={{ fontSize: isMobile ? 10 : 12 }}
+                        />
+                        <Legend wrapperStyle={{ fontSize: isMobile ? 10 : 12 }} />
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
@@ -513,8 +570,12 @@ const BiDashboard = () => {
                         cx="50%"
                         cy="50%"
                         labelLine={false}
-                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                        outerRadius={180}
+                        label={({ name, percent }) => 
+                          isMobile ? 
+                            `${Math.round(percent * 100)}%` : 
+                            `${name}: ${Math.round(percent * 100)}%`
+                        }
+                        outerRadius={isMobile ? 80 : 100}
                         fill="#8884d8"
                         dataKey="value"
                       >
@@ -527,8 +588,11 @@ const BiDashboard = () => {
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
-                      <Tooltip formatter={(value) => [`${value}%`, 'Percentual']} />
-                      <Legend />
+                      <Tooltip 
+                        formatter={(value) => [`${value}%`, 'Percentual']} 
+                        contentStyle={{ fontSize: isMobile ? 10 : 12 }}
+                      />
+                      <Legend wrapperStyle={{ fontSize: isMobile ? 10 : 12 }} />
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
@@ -537,13 +601,13 @@ const BiDashboard = () => {
           </TabsContent>
         </Tabs>
         
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mt-4 md:mt-0">
           <span className="text-sm font-medium">Período:</span>
           <Select 
             value={timeFrame} 
             onValueChange={(value) => setTimeFrame(value as 'monthly' | 'quarterly' | 'yearly')}
           >
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[140px] md:w-[180px]">
               <SelectValue placeholder="Selecione um período" />
             </SelectTrigger>
             <SelectContent>
