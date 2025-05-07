@@ -12,10 +12,13 @@ import {
   FileText,
   Plus,
   PieChart,
-  MapPin
+  MapPin,
+  Bell
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
+import { useAlerts } from '@/hooks/useAlerts';
+import { Badge } from '@/components/ui/badge';
 
 interface SidebarProps {
   closeSidebar: () => void;
@@ -24,12 +27,21 @@ interface SidebarProps {
 const Sidebar = ({ closeSidebar }: SidebarProps) => {
   const location = useLocation();
   const { logout } = useAuth();
+  const { getPendingAlertsCount } = useAlerts();
+
+  const pendingAlertsCount = getPendingAlertsCount();
 
   const navItems = [
     { name: 'Início', path: '/dashboard', icon: Home },
     { name: 'Lançar Nota', path: '/dashboard/create-invoice', icon: Plus, highlight: true },
     { name: 'Histórico', path: '/dashboard/history', icon: BarChart2 },
     { name: 'Rastreamento', path: '/dashboard/tracking', icon: MapPin },
+    { 
+      name: 'Alertas', 
+      path: '/dashboard/alerts', 
+      icon: Bell, 
+      badge: pendingAlertsCount > 0 ? pendingAlertsCount : undefined 
+    },
     { 
       name: 'Checklist', 
       path: '/dashboard/checklist', 
@@ -89,6 +101,14 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
                     )}
                   />
                   <span>{item.name}</span>
+                  {item.badge && (
+                    <Badge 
+                      variant="destructive"
+                      className="ml-auto text-xs px-2 py-1 bg-red-500 text-white"
+                    >
+                      {item.badge}
+                    </Badge>
+                  )}
                   {item.highlight && !isActive && (
                     <span className="ml-auto bg-green-500 text-white text-xs px-2 py-0.5 rounded-full">
                       Novo
