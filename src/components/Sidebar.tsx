@@ -11,7 +11,8 @@ import {
   LogOut, 
   FileText,
   Plus,
-  PieChart
+  PieChart,
+  MapPin
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
@@ -28,6 +29,7 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
     { name: 'Início', path: '/dashboard', icon: Home },
     { name: 'Lançar Nota', path: '/dashboard/create-invoice', icon: Plus, highlight: true },
     { name: 'Histórico', path: '/dashboard/history', icon: BarChart2 },
+    { name: 'Rastreamento', path: '/dashboard/tracking', icon: MapPin },
     { 
       name: 'Checklist', 
       path: '/dashboard/checklist', 
