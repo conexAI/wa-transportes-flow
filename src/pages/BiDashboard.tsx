@@ -36,12 +36,12 @@ import {
 } from 'recharts';
 import { biData } from '@/utils/mockData';
 import { Truck, TrendingUp, Users, Fuel, Calendar } from 'lucide-react';
-import { useMediaQuery } from '@/hooks/use-mobile';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const BiDashboard = () => {
   const [timeFrame, setTimeFrame] = useState<'monthly' | 'quarterly' | 'yearly'>('monthly');
   const [activeTab, setActiveTab] = useState('overview');
-  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isMobile = useIsMobile();
   
   // Função para formatar valores monetários
   const formatCurrency = (value: number) => {

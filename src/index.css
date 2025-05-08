@@ -1,3 +1,7 @@
+
+/* Import custom styles */
+@import './styles/custom.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -92,6 +96,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-/* Import custom styles */
-@import './styles/custom.css';
