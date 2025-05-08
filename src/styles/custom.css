@@ -27,3 +27,32 @@
   transform: translateX(-10px);
   transition: opacity 300ms, transform 300ms;
 }
+
+/* Mobile-friendly styles */
+.mobile-container {
+  padding: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .mobile-container {
+    padding: 1.5rem;
+  }
+}
+
+/* Better touch targets for mobile */
+.mobile-touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Responsive tables */
+.responsive-table {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile-friendly cards */
+.mobile-card {
+  @apply shadow-md rounded-lg overflow-hidden;
+}

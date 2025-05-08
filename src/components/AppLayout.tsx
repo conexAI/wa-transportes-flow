@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
+import NotificationCenterTrigger from './NotificationCenterTrigger';
 
 const AppLayout = () => {
   const { user, logout } = useAuth();
@@ -16,9 +17,9 @@ const AppLayout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
+    <div className="min-h-screen h-screen w-screen flex flex-col md:flex-row overflow-hidden">
       {/* Mobile Header */}
-      <header className="bg-white shadow-sm py-3 px-4 flex items-center justify-between md:hidden">
+      <header className="bg-white shadow-sm py-3 px-4 flex items-center justify-between md:hidden z-10">
         <div className="flex items-center">
           <Button
             variant="ghost"
@@ -37,8 +38,9 @@ const AppLayout = () => {
             }}
           />
         </div>
-        <div>
-          <span className="text-sm font-medium mr-2">Olá, {user?.username}</span>
+        <div className="flex items-center gap-2">
+          <NotificationCenterTrigger />
+          <span className="text-sm font-medium">Olá, {user?.username}</span>
         </div>
       </header>
 
@@ -64,16 +66,24 @@ const AppLayout = () => {
       </AnimatePresence>
 
       {/* Main Content */}
-      <main className="flex-1 md:ml-64 p-4">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          className="container mx-auto"
-        >
-          <Outlet />
-        </motion.div>
+      <main className="flex-1 md:ml-64 flex flex-col overflow-hidden">
+        <div className="hidden md:flex items-center justify-end p-2 border-b bg-white shadow-sm">
+          <div className="flex items-center gap-2">
+            <NotificationCenterTrigger />
+            <span className="text-sm font-medium">Olá, {user?.username}</span>
+          </div>
+        </div>
+        <div className="flex-1 overflow-auto">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="p-4 min-h-full"
+          >
+            <Outlet />
+          </motion.div>
+        </div>
       </main>
     </div>
   );
