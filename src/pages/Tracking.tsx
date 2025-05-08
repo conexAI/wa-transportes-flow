@@ -1,9 +1,10 @@
-
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Route, MapPin, Link, Search, Link2, ExternalLink } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
+import { ptBR } from 'date-fns/locale';
 
 import {
   Table,
@@ -17,7 +18,6 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ptBR } from 'date-fns/locale';
 
 // Mock data to simulate tracking records
 const trackingData = [
@@ -81,6 +81,7 @@ const analyticsData = {
 
 const Tracking = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
   
   // Simulate data fetching with React Query
   const { data: trackings } = useQuery({
@@ -117,6 +118,10 @@ const Tracking = () => {
 
   const handleGenerateNewTracking = () => {
     alert('Funcionalidade em desenvolvimento: Gerar novo link de tracking');
+  };
+
+  const handleViewDetails = (id) => {
+    navigate(`/dashboard/tracking/${id}`);
   };
 
   return (
@@ -204,7 +209,7 @@ const Tracking = () => {
               <TableHead>Status</TableHead>
               <TableHead className="hidden sm:table-cell">Data de criação</TableHead>
               <TableHead className="hidden md:table-cell">Acessos</TableHead>
-              <TableHead>Link</TableHead>
+              <TableHead>Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -222,15 +227,26 @@ const Tracking = () => {
                   </TableCell>
                   <TableCell className="hidden md:table-cell">{tracking.accessCount}</TableCell>
                   <TableCell>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleOpenTracking(tracking.trackingLink)}
-                      className="flex items-center gap-1"
-                    >
-                      <ExternalLink className="h-3.5 w-3.5" />
-                      <span className="hidden sm:inline">Ver</span>
-                    </Button>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleOpenTracking(tracking.trackingLink)}
+                        className="flex items-center gap-1"
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        <span className="hidden sm:inline">Link</span>
+                      </Button>
+                      <Button
+                        variant="default"
+                        size="sm"
+                        onClick={() => handleViewDetails(tracking.id)}
+                        className="flex items-center gap-1"
+                      >
+                        <Search className="h-3.5 w-3.5" />
+                        <span className="hidden sm:inline">Detalhes</span>
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))

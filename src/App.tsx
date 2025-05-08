@@ -16,6 +16,7 @@ import Settings from "@/pages/Settings";
 import CreateInvoice from "@/pages/CreateInvoice";
 import BiDashboard from "@/pages/BiDashboard";
 import Tracking from "@/pages/Tracking";
+import TrackingDetails from "@/pages/TrackingDetails";
 import Alerts from "@/pages/Alerts";
 import Occurrences from "@/pages/Occurrences";
 import CreateOccurrence from "@/pages/CreateOccurrence";
@@ -46,6 +47,7 @@ const App = () => {
                 <Route index element={<Dashboard />} />
                 <Route path="history" element={<History />} />
                 <Route path="tracking" element={<Tracking />} />
+                <Route path="tracking/:id" element={<TrackingDetails />} />
                 <Route path="alerts" element={<Alerts />} /> 
                 <Route path="checklist" element={<Checklist />} />
                 <Route path="settings" element={<Settings />} />
