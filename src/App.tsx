@@ -22,6 +22,7 @@ import Occurrences from "@/pages/Occurrences";
 import CreateOccurrence from "@/pages/CreateOccurrence";
 import OccurrenceDetails from "@/pages/OccurrenceDetails";
 import NotFound from "@/pages/NotFound";
+import { NotificationProvider } from "@/contexts/NotificationContext";
 
 const queryClient = new QueryClient();
 
@@ -31,36 +32,38 @@ const App = () => {
       <TooltipProvider>
         <BrowserRouter>
           <AuthProvider>
-            <Toaster />
-            <Sonner />
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              
-              <Route
-                path="/dashboard"
-                element={
-                  <ProtectedRoute>
-                    <AppLayout />
-                  </ProtectedRoute>
-                }
-              >
-                <Route index element={<Dashboard />} />
-                <Route path="history" element={<History />} />
-                <Route path="tracking" element={<Tracking />} />
-                <Route path="tracking/:id" element={<TrackingDetails />} />
-                <Route path="alerts" element={<Alerts />} /> 
-                <Route path="checklist" element={<Checklist />} />
-                <Route path="settings" element={<Settings />} />
-                <Route path="create-invoice" element={<CreateInvoice />} />
-                <Route path="bi" element={<BiDashboard />} />
-                <Route path="occurrences" element={<Occurrences />} />
-                <Route path="occurrences/new" element={<CreateOccurrence />} />
-                <Route path="occurrences/:id" element={<OccurrenceDetails />} />
-              </Route>
-              
-              <Route path="/" element={<Index />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <NotificationProvider>
+              <Toaster />
+              <Sonner />
+              <Routes>
+                <Route path="/login" element={<Login />} />
+                
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <AppLayout />
+                    </ProtectedRoute>
+                  }
+                >
+                  <Route index element={<Dashboard />} />
+                  <Route path="history" element={<History />} />
+                  <Route path="tracking" element={<Tracking />} />
+                  <Route path="tracking/:id" element={<TrackingDetails />} />
+                  <Route path="alerts" element={<Alerts />} /> 
+                  <Route path="checklist" element={<Checklist />} />
+                  <Route path="settings" element={<Settings />} />
+                  <Route path="create-invoice" element={<CreateInvoice />} />
+                  <Route path="bi" element={<BiDashboard />} />
+                  <Route path="occurrences" element={<Occurrences />} />
+                  <Route path="occurrences/new" element={<CreateOccurrence />} />
+                  <Route path="occurrences/:id" element={<OccurrenceDetails />} />
+                </Route>
+                
+                <Route path="/" element={<Index />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </NotificationProvider>
           </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>

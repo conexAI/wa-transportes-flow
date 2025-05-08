@@ -10,6 +10,20 @@ export interface TrackingStep {
   comments?: string[];
 }
 
+export interface Comment {
+  id: string;
+  authorName: string;
+  text: string;
+  timestamp: string;
+}
+
+export interface DeliveryConfirmation {
+  photoUrl?: string;
+  signatureUrl?: string;
+  confirmedBy?: string;
+  confirmedAt?: string;
+}
+
 export interface TrackingDetail {
   id: string;
   cteNumber: string;
@@ -19,4 +33,6 @@ export interface TrackingDetail {
   lastUpdated: string;
   accessCount: number;
   trackingLink: string;
+  comments?: Comment[];
+  deliveryConfirmation?: DeliveryConfirmation;
 }
