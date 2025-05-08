@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import NotificationCenter from './NotificationCenter';
 import { useNotificationContext } from '@/contexts/NotificationContext';
 import { Bell } from 'lucide-react';
@@ -16,9 +16,27 @@ const NotificationCenterTrigger: React.FC = () => {
   } = useNotificationContext();
   
   const unreadCount = getUnreadCount();
+  const notificationRef = useRef<HTMLDivElement>(null);
+  
+  // Handle clicks outside of the notification center to close it
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
   
   return (
-    <div className="relative">
+    <div className="relative" ref={notificationRef}>
       <Button 
         variant="ghost"
         size="icon"
@@ -42,7 +60,6 @@ const NotificationCenterTrigger: React.FC = () => {
             notifications={notifications}
             onMarkAsRead={markAsRead}
             onMarkAllAsRead={markAllAsRead}
-            onClose={() => setIsOpen(false)}
           />
         </div>
       )}
